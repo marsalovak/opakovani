@@ -8,13 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.querySelector(".send");
   const msgs = document.querySelector(".msgs");
  
-  // ⏰ funkce na formátování času
+  // funkce na formátování času
   function getTime() {
     const d = new Date();
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
  
-  // ✉️ funkce na vytvoření bubliny se zprávou
+  // funkce na vytvoření bubliny se zprávou
   function addMessage(text, author = "Já") {
     const row = document.createElement("div");
     row.className = "msg-row right"; // right = moje zpráva
@@ -33,20 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
     msgs.scrollTop = msgs.scrollHeight;
   }
  
-  // 🚀 odeslání zprávy
+  // odeslání zprávy
   function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
  
     addMessage(text);
+    async function addchat() {
+  const message = document.getElementById("message").value;
+  const name = document.getElementById("name").value;
  
-    // 👉 tady můžeš přidat volání na server
-    // fetch("/api/messages", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ author: "Kateřina", text })
-    // });
- 
+  const response = await sql(
+    `INSERT INTO chat (message,name) VALUES ('${message}', '${name}') `
+  );
+}
     input.value = "";
   }
  
