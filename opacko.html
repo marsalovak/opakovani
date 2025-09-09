@@ -1,38 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div>
-      <img
-        src=""
-        alt="" />
-      <h1>nazev osoby ktera nam pise</h1>
-      <img
-        id="kamera"
-        src=""
-        alt="" />
-      <img
-        id="telefon"
-        src=""
-        alt="" />
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatovací aplikace</title>
+  <style>
+    :root{
+      --brand:#4c4cf3; /* top bar */
+      --brand-dark:#3b3be6;
+      --bg-grad-top:#ffffff;
+      --bg-grad-bottom:#b5b8ff; /* chat area gradient */
+      --text:#0f172a;
+      --muted:#8091a7;
+      --bubble:#ffffff;
+      --shadow:0 8px 16px rgba(0,0,0,.08);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text);
+      background:#eef0ff;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+ 
+    /* App frame sized to match the screenshot ratio */
+    .app{
+      width:1870px; /* screenshot width */
+      height:900px; /* screenshot height */
+      background:#fff;
+      border-radius:22px;
+      overflow:hidden;
+      display:grid;
+      grid-template-rows:64px 1fr;
+      box-shadow:0 24px 60px rgba(46,57,130,.25);
+    }
+ 
+    /* Top bar */
+    .topbar{
+      background:var(--brand);
+      color:#fff;
+      padding:0 18px 0 22px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .avatar{
+      width:38px;height:38px;border-radius:50%;
+      background:linear-gradient(135deg,#7dd3fc,#38bdf8);
+      overflow:hidden;flex:0 0 auto;
+      display:grid;place-items:center;
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.65);
+    }
+    .avatar.small{width:34px;height:34px}
+    .avatar.xs{width:32px;height:32px}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+ 
+    .user-block{display:flex;flex-direction:column;line-height:1}
+    .user-name{font-weight:700;letter-spacing:.2px}
+    .user-status{font-size:12px;opacity:.85;margin-top:6px}
+    .presence{width:10px;height:10px;border-radius:50%;background:#5df56b;box-shadow:0 0 0 2px var(--brand);margin-left:-10px;margin-top:18px}
+ 
+    .topbar-spacer{flex:1}
+    .icon-btn{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;cursor:pointer;}
+    .icon-btn svg{width:20px;height:20px;fill:#3b3be6}
+ 
+    /* Chat pane */
+    .pane{
+      position:relative;
+      background:linear-gradient(180deg,var(--bg-grad-top), var(--bg-grad-bottom));
+      padding:24px 26px 96px; /* leave space for composer */
+      overflow:hidden;
+    }
+ 
+    /* Messages grid matching screenshot rhythm */
+    .msgs{position:absolute; inset:24px 26px 96px 26px; overflow-y:auto;}
+    .msg-row{display:flex;align-items:flex-end; gap:12px; margin:22px 0}
+    .msg-row.right{justify-content:flex-end}
+ 
+    .bubble{background:var(--bubble); border-radius:12px; min-width:360px; max-width:540px; min-height:84px; box-shadow:var(--shadow); padding:22px 22px 28px; position:relative}
+    .meta{position:absolute; right:16px; bottom:10px; font-size:10.5px; color:#8a95a7;}
+ 
+    /* Composer */
+    .composer-wrap{position:absolute; left:24px; right:24px; bottom:20px; display:flex; justify-content:center;}
+    .composer{
+      width:100%;
+      background:rgba(255,255,255,.9);
+      border-radius:20px;
+      padding:14px;
+      box-shadow:0 10px 30px rgba(24,39,75,.25);
+      display:flex; align-items:center; gap:14px;
+    }
+    .chip{width:42px;height:42px;border-radius:14px;background:#eef1ff; display:grid; place-items:center; cursor:pointer;}
+    .chip svg{width:20px;height:20px}
+    .input{flex:1}
+    .input input{width:100%; height:42px; border:0; outline:0; background:transparent; font-size:16px; color:#111}
+    .send{
+      width:60px;height:42px;border-radius:16px; background:var(--brand); display:grid; place-items:center; cursor:pointer;
+ 
+    }
+    .send:hover{transform:translateY(-1px)}
+    .send svg{width:26px;height:26px; fill:#fff}
+ 
+ 
+    /* Utilities */
+    .gap-8{gap:8px}
+ 
+ 
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Messenger">
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="avatar"> <img src="honzapfp.png" alt=""> </div>
+      <div class="user-block">
+        <div class="user-name">Jan Fišera</div>
+        <div class="user-status">last seen today at 8:34 AM</div>
+      </div>
+      <div class="presence" aria-hidden="true"></div>
+      <div class="topbar-spacer"></div>
+      <button class="icon-btn" aria-label="Video call">
+        <svg viewBox="0 0 24 24"><path d="M17 10.5V7a2 2 0 0 0-2-2H4A2 2 0 0 0 2 7v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3.5l5 3.5V7l-5 3.5Z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Voice call">
+        <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.1.36 2.29.56 3.58.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1c-9.39 0-17-7.61-17-17a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.29.2 2.48.56 3.58a1 1 0 0 1-.24 1.01l-2.2 2.2Z"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="More">
+        <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+      </button>
     </div>
-
-    <div>
-      <img
-        src="fotak"
-        alt="" />
-      <textarea
-        name="zprava"
-        id="zprava"></textarea>
-      <img
-        id="mikrofon"
-        alt="" />
+ 
+    <!-- Chat area -->
+    <div class="pane">
+      <div class="msgs">
+        <div class="msg-row">
+          <!-- <div class="avatar small"> <img src="honzapfp.png" alt=""> </div>
+          <div class="bubble">
+            <div class="meta">00:15 Name Surname</div>
+          </div> -->
+        </div>
+ 
+        <div class="msg-row right">
+          <!-- <div class="bubble" style="min-width:520px">
+            <div class="meta">00:15 Name Surname</div>
+          </div>
+          <div class="avatar xs" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)"> <img src="kubapfp.png" alt=""></div>
+        </div> -->
+ 
+        <div class="msg-row">
+      <!-- <div class="avatar small"> <img src="honzapfp.png" alt=""></div>
+          <div class="bubble" style="min-width:520px">
+            <div class="meta">00:15 Name Surname</div>
+          </div> -->
+        </div>
+ 
+        <div class="msg-row right">
+         <!-- <div class="bubble" style="min-width:520px">
+            <div class="meta">00:15 Name Surname</div>
+          </div>
+          <div class="avatar xs" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)"> <img src="kubapfp.png" alt=""></div>
+        </div> -->
+ 
+        <div class="msg-row">
+         <!-- <div class="avatar small"> <img src="honzapfp.png" alt=""> </div>
+          <div class="bubble" style="min-width:560px">
+            <div class="meta">00:15 Name Surname</div>
+          </div>
+        </div> -->
+      </div>
+ 
+      <!-- Composer -->
+      <div class="composer-wrap">
+        <div class="composer">
+       
+          <div class="chip" title="Attach">
+            <img src="attach.png" alt="emoji" width="35" height="35">
+          </div>
+       
+       
+          <div class="chip" title="Emoji">
+            <img src="emoji.png" alt="emoji" width="35" height="35">
+          </div>
+       
+       
+          <div class="chip" title="Photo">
+            <img src="image.png" alt="emoji" width="35" height="35">
+          </div>
+       
+     
+          <div class="chip" title="Voice">
+            <img src="microphone.png" alt="emoji" width="35" height="35">
+          </div>
+   
+ 
+          <div class="input"><input placeholder="Type message here…" aria-label="Type message here"/></div>
+          <button class="send" aria-label="Send">
+            <svg viewBox="0 0 24 24"><path d="m2 21 20-9L2 3v7l14 2-14 2v7Z"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>
