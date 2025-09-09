@@ -2,92 +2,63 @@ const database = "3it_marsalovak23";
 const username = "marsalovak23";
 const password = "9jWnrwT1Bz";
 const server = "localhost";
-
  
-// Tvoje jméno
-const myName = "Kateřina";
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.querySelector(".input input");
+  const sendBtn = document.querySelector(".send");
+  const msgs = document.querySelector(".msgs");
  
-// Vlastní funkce na spouštění SQL
-
-  try {
-    const response = await fetch(url, { method: "POST", body: postJson });
-    if (!response.ok) throw new Error(`Chyba: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error(error.message);
-    return [];
+  // ⏰ funkce na formátování času
+  function getTime() {
+    const d = new Date();
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
  
-// Vytvoření HTML prvku pro zprávu
-function createMessageElement(msg) {
-  const div = document.createElement("div");
-  const isSent = msg.name === myName;
-  div.className = `message ${isSent ? "sent" : "received"}`;
+  // ✉️ funkce na vytvoření bubliny se zprávou
+  function addMessage(text, author = "Já") {
+    const row = document.createElement("div");
+    row.className = "msg-row right"; // right = moje zpráva
  
-  const textDiv = document.createElement("div");
-  textDiv.className = "text";
-  textDiv.textContent = msg.text;
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.innerHTML = `
+<div class="meta">${getTime()} ${author}</div>
+<div>${text}</div>
+    `;
  
-  const timeDiv = document.createElement("div");
-  timeDiv.className = "time";
-  timeDiv.textContent = new Date(msg.time).toLocaleTimeString("cs-CZ", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    row.appendChild(bubble);
+    msgs.appendChild(row);
  
-  div.appendChild(textDiv);
-  div.appendChild(timeDiv);
- 
-  return div;
-}
- 
-// Vložení nové zprávy do DB
-async function sendMessage() {
-  const messageInput = document.getElementById("message-input");
-  const text = messageInput.value.trim();
- 
-  if (!text) return;
- 
-  await sql(
-    `INSERT INTO chat_app (name, text, time) VALUES ('${myName}', '${text}', NOW())`
-  );
- 
-  messageInput.value = "";
-  loadMessages();
-}
- 
-// Načtení zpráv z DB a vykreslení
-async function loadMessages() {
-  const messages = await sql("SELECT * FROM chat_app ORDER BY time ASC");
-  const chatBox = document.getElementById("chat-box");
- 
-  // Uložíme si, kde je uživatel ve scrollování
-  const isAtBottom =
-    chatBox.scrollHeight - chatBox.clientHeight <= chatBox.scrollTop + 1;
- 
-  chatBox.innerHTML = "";
- 
-  messages.forEach((msg) => {
-    chatBox.appendChild(createMessageElement(msg));
-  });
- 
-  // Rolujeme na konec jen, pokud uživatel nebyl ve scrollování
-  if (isAtBottom) {
-    chatBox.scrollTop = chatBox.scrollHeight;
+    // automaticky scroll na konec
+    msgs.scrollTop = msgs.scrollHeight;
   }
-}
  
-// Posluchač formuláře
-document.getElementById("chat-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  sendMessage();
+  // 🚀 odeslání zprávy
+  function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+ 
+    addMessage(text);
+ 
+    // 👉 tady můžeš přidat volání na server
+    // fetch("/api/messages", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ author: "Kateřina", text })
+    // });
+ 
+    input.value = "";
+  }
+ 
+  // kliknutí na tlačítko
+  sendBtn.addEventListener("click", sendMessage);
+ 
+  // Enter klávesa = odeslání
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
 });
  
-// Posluchač pro ikonu hlasové zprávy (prozatím jen placeholder)
-document.getElementById("voice-btn").addEventListener("click", () => {
-  alert("Funkce hlasové zprávy je zatím ve vývoji.");
-});
- 
-// Obnovování každé 2 sekundy
-setInterval(loadMessages, 2000);
-loadMessages();
