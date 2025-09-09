@@ -10,7 +10,7 @@
       --brand-dark:#df9bdb;
       --bg-grad-top:#ffffff;
       --bg-grad-bottom:#ffb5e9; /* chat area gradient */
-      --text:#2a0f29;
+      --text:#0f172a;
       --muted:#a7808b;
       --bubble:#ffffff;
       --shadow:0 8px 16px rgba(0,0,0,.08);
@@ -20,7 +20,7 @@
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color:var(--text);
       background:#eef0ff;
       display:grid;
@@ -37,10 +37,10 @@
       overflow:hidden;
       display:grid;
       grid-template-rows:64px 1fr;
-      box-shadow:0 24px 60px rgba(224, 123, 224, 0.25);
+      box-shadow:0 24px 60px rgba(46,57,130,.25);
     }
  
-    /* Top bar */
+    /* horni panel */
     .topbar{
       background:var(--brand);
       color:#fff;
@@ -63,21 +63,21 @@
     .user-block{display:flex;flex-direction:column;line-height:1}
     .user-name{font-weight:700;letter-spacing:.2px}
     .user-status{font-size:12px;opacity:.85;margin-top:6px}
-    .presence{width:10px;height:10px;border-radius:50%;background:#dd2f43;box-shadow:0 0 0 2px var(--brand);margin-left:-10px;margin-top:18px}
+    .presence{width:10px;height:10px;border-radius:50%;background:#5df56b;box-shadow:0 0 0 2px var(--brand);margin-left:-10px;margin-top:18px}
  
     .topbar-spacer{flex:1}
     .icon-btn{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;cursor:pointer;}
     .icon-btn svg{width:20px;height:20px;fill:#ee42e0}
  
-    /* Chat pane */
+    /* Chat */
     .pane{
       position:relative;
       background:linear-gradient(180deg,var(--bg-grad-top), var(--bg-grad-bottom));
-      padding:24px 26px 96px; /* leave space for composer */
+      padding:24px 26px 96px; /* opustit listu */
       overflow:hidden;
     }
  
-    /* Messages grid matching screenshot rhythm */
+    /* mřížka zpráv  */
     .msgs{position:absolute; inset:24px 26px 96px 26px; overflow-y:auto;}
     .msg-row{display:flex;align-items:flex-end; gap:12px; margin:22px 0}
     .msg-row.right{justify-content:flex-end}
@@ -85,20 +85,20 @@
     .bubble{background:var(--bubble); border-radius:12px; min-width:360px; max-width:540px; min-height:84px; box-shadow:var(--shadow); padding:22px 22px 28px; position:relative}
     .meta{position:absolute; right:16px; bottom:10px; font-size:10.5px; color:#8a95a7;}
  
-    /* Composer */
+    /* lišta */
     .composer-wrap{position:absolute; left:24px; right:24px; bottom:20px; display:flex; justify-content:center;}
     .composer{
       width:100%;
       background:rgba(255,255,255,.9);
       border-radius:20px;
       padding:14px;
-      box-shadow:0 10px 30px rgba(209, 111, 209, 0.622);
+      box-shadow:0 10px 30px rgba(24,39,75,.25);
       display:flex; align-items:center; gap:14px;
     }
     .chip{width:42px;height:42px;border-radius:14px;background:#eef1ff; display:grid; place-items:center; cursor:pointer;}
     .chip svg{width:20px;height:20px}
     .input{flex:1}
-    .input input{width:100%; height:42px; border:0; outline:0; background:transparent; font-size:16px; color:#111111}
+    .input input{width:100%; height:42px; border:0; outline:0; background:transparent; font-size:16px; color:#111}
     .send{
       width:60px;height:42px;border-radius:16px; background:var(--brand); display:grid; place-items:center; cursor:pointer;
  
@@ -116,7 +116,7 @@
 <body>
   <div class="app" role="application" aria-label="Messenger">
 
-    <!-- Top bar -->
+    <!-- horní lišta -->
     <div class="topbar">
       <div class="avatar"> <img src="https://i.pinimg.com/736x/15/45/fd/1545fd792986ad512ac13d03d62f5c4d.jpg" alt=""> </div>
       <div class="user-block">
@@ -136,7 +136,7 @@
       </button>
     </div>
  
-    <!-- Chat area -->
+    <!-- chat část -->
     <div class="pane">
       <div class="msgs">
         <div class="msg-row">
@@ -147,7 +147,7 @@
         
  
         <div class="msg-row">
-      <!-- <div class="avatar small"> <img src="kackapfp.png" alt=""></div>
+      <!-- <div class="avatar small"> <img src="honzapfp.png" alt=""></div>
           <div class="bubble" style="min-width:520px">
             <div class="meta">00:15 Name Surname</div>
           </div> -->
@@ -157,18 +157,18 @@
          <!-- <div class="bubble" style="min-width:520px">
             <div class="meta">00:15 Name Surname</div>
           </div>
-          <div class="avatar xs" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)"> <img src="natkapfp.png" alt=""></div>
+          <div class="avatar xs" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)"> <img src="kubapfp.png" alt=""></div>
         </div> -->
  
         <div class="msg-row">
-         <!-- <div class="avatar small"> <img src="kacka.png" alt=""> </div>
+         <!-- <div class="avatar small"> <img src="honzapfp.png" alt=""> </div>
           <div class="bubble" style="min-width:560px">
             <div class="meta">00:15 Name Surname</div>
           </div>
         </div> -->
       </div>
  
-      <!-- Composer -->
+      <!-- lišta -->
       <div class="composer-wrap">
         <div class="composer">
        
