@@ -39,9 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = input.value.trim();
     if (!text) return;
 
-    addMessage("Vpravo?");
-    addMessage("Vlevo?", "Naty");
-
     addMessage(text);
     addchat(text);
     async function addchat(text) {
