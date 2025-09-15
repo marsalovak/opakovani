@@ -1,8 +1,3 @@
-const database = "3it_marsalovak23";
-const username = "marsalovak23";
-const password = "9jWnrwT1Bz";
-const server = "localhost";
-
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector(".input input");
   const sendBtn = document.querySelector(".send");
@@ -48,12 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
     addMessage("Vlevo?", "Naty");
 
     addMessage(text);
-    async function addchat() {
-      const message = document.getElementById("message").value;
-      const name = document.getElementById("name").value;
+    addchat(text);
+    async function addchat(text) {
+      const message = text;
+      const name = "Já";
 
       const response = await sql(
-        `INSERT INTO chat (message,time,name) VALUES ('${message}', '${name}') `
+        `INSERT INTO chat (message,name) VALUES ('${message}','${name}') `
       );
     }
     input.value = "";
