@@ -2,19 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector(".input input");
   const sendBtn = document.querySelector(".send");
   const msgs = document.querySelector(".msgs");
+  const authorSelect = document.querySelector(".author"); // nový řádek
 
-  // funkce na formátování času
+  // čas
   function getTime() {
     const d = new Date();
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
-  // funkce na vytvoření bubliny se zprávou
-  function addMessage(text, author = "Já") {
+  // vytvoření bubliny se zprávou
+  function addMessage(text, author = "Káťa") {
     const row = document.createElement("div");
 
-    // pokud jsem to já, tak zpráva vpravo, jinak vlevo
-    if (author === "Já") {
+    // pokud jsem to já (Káťa), tak zpráva vpravo, jinak vlevo
+    if (author === "Káťa") {
       row.className = "msg-row right";
     } else {
       row.className = "msg-row left";
@@ -39,11 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = input.value.trim();
     if (!text) return;
 
-    addMessage(text);
-    addchat(text);
-    async function addchat(text) {
+    const author = authorSelect.value; // nový řádek
+
+    addMessage(text, author);
+    addchat(text, author);
+    async function addchat(text, author) {
       const message = text;
-      const name = "Já";
+      const name = author;
 
       const response = await sql(
         `INSERT INTO chat (message,name) VALUES ('${message}','${name}') `
