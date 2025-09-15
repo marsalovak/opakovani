@@ -4,20 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Chatovací aplikace</title>
- <script src="server.js"></script>
- <script src="opakovani.js" defer></script>
-
-<select class="author">
-  <option value="Káťa">Káťa</option>
-  <option value="Naty">Naty</option>
-</select>
+  <script src="server.js"></script>
+  <script src="opakovani.js" defer></script>
   <style>
-    
     :root{
-      --brand:#f34cd2; /* top bar */
+      --brand:#f34cd2;
       --brand-dark:#df9bdb;
       --bg-grad-top:#ffffff;
-      --bg-grad-bottom:#ffb5e9; /* chat area gradient */
+      --bg-grad-bottom:#ffb5e9;
       --text:#0f172a;
       --muted:#a7808b;
       --bubble:#ffffff;
@@ -35,11 +29,9 @@
       place-items:center;
       padding:24px;
     }
- 
-    /* App frame sized to match the screenshot ratio */
     .app{
-      width:1870px; /* screenshot width */
-      height:900px; /* screenshot height */
+      width:1870px;
+      height:900px;
       background:#fff;
       border-radius:22px;
       overflow:hidden;
@@ -47,8 +39,6 @@
       grid-template-rows:64px 1fr;
       box-shadow:0 24px 60px rgba(46,57,130,.25);
     }
- 
-    /* horni panel */
     .topbar{
       background:var(--brand);
       color:#fff;
@@ -67,33 +57,24 @@
     .avatar.small{width:34px;height:34px}
     .avatar.xs{width:32px;height:32px}
     .avatar img{width:100%;height:100%;object-fit:cover}
- 
     .user-block{display:flex;flex-direction:column;line-height:1}
     .user-name{font-weight:700;letter-spacing:.2px}
     .user-status{font-size:12px;opacity:.85;margin-top:6px}
     .presence{width:10px;height:10px;border-radius:50%;background:#ff0000;box-shadow:0 0 0 2px var(--brand);margin-left:-10px;margin-top:18px}
- 
     .topbar-spacer{flex:1}
     .icon-btn{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;cursor:pointer;}
     .icon-btn svg{width:20px;height:20px;fill:#ee42e0}
- 
-    /* Chat */
     .pane{
       position:relative;
       background:linear-gradient(180deg,var(--bg-grad-top), var(--bg-grad-bottom));
-      padding:24px 26px 96px; /* opustit listu */
+      padding:24px 26px 96px;
       overflow:hidden;
     }
- 
-    /* mřížka zpráv  */
-    .msgs{position:absolute; inset:24px 26px 96px 26px; overflow-y:auto;}
+    .msgs{position:relative;height:calc(100% - 120px);margin:24px 26px 0 26px;overflow-y:auto;}
     .msg-row{display:flex;align-items:flex-end; gap:12px; margin:22px 0}
     .msg-row.right{justify-content:flex-end}
- 
     .bubble{background:var(--bubble); border-radius:12px; min-width:360px; max-width:540px; min-height:84px; box-shadow:var(--shadow); padding:22px 22px 28px; position:relative}
     .meta{position:absolute; right:16px; bottom:10px; font-size:10.5px; color:#8a95a7;}
- 
-    /* lišta */
     .composer-wrap{position:absolute; left:24px; right:24px; bottom:20px; display:flex; justify-content:center;}
     .composer{
       width:100%;
@@ -109,21 +90,14 @@
     .input input{width:100%; height:42px; border:0; outline:0; background:transparent; font-size:16px; color:#111}
     .send{
       width:60px;height:42px;border-radius:16px; background:var(--brand); display:grid; place-items:center; cursor:pointer;
- 
     }
     .send:hover{transform:translateY(-1px)}
     .send svg{width:26px;height:26px; fill:#fff}
- 
- 
-    /* Utilities */
     .gap-8{gap:8px}
- 
- 
   </style>
 </head>
 <body>
   <div class="app" role="application" aria-label="Messenger">
-
     <!-- horní lišta -->
     <div class="topbar">
       <div class="avatar"> <img src="https://i.pinimg.com/736x/15/45/fd/1545fd792986ad512ac13d03d62f5c4d.jpg" alt=""> </div>
@@ -143,37 +117,26 @@
         <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
       </button>
     </div>
- 
     <!-- chat část -->
     <div class="pane">
-      <div class="msgs">
-        <div class="msg-row">
-        
-        </div>
- 
-       
-        
- 
- 
+      <div class="msgs"></div>
+      <!-- Výběr autora -->
+      <select class="author" style="position:absolute;top:24px;right:40px;z-index:2;">
+        <option value="Káťa">Káťa</option>
+        <option value="Naty">Naty</option>
+      </select>
       <!-- lišta -->
       <div class="composer-wrap">
         <div class="composer">
-       
           <div class="chip" title="Emoji">
             <img src="https://freepngimg.com/thumb/emoji/110190-pink-heart-love-emoji-free-hq-image.png" alt="emoji" width="35" height="35">
           </div>
-       
-       
           <div class="chip" title="Photo">
             <img src="https://cdn-icons-png.flaticon.com/512/11755/11755044.png" alt="emoji" width="35" height="35">
           </div>
-       
-     
           <div class="chip" title="Voice">
             <img src="https://cdn-icons-png.freepik.com/512/4381/4381211.png" alt="emoji" width="35" height="35">
           </div>
-   
- 
           <div class="input"><input placeholder="Type message here…" aria-label="Type message here"/></div>
           <button class="send" aria-label="Send">
             <svg viewBox="0 0 24 24"><path d="m2 21 20-9L2 3v7l14 2-14 2v7Z"/></svg>

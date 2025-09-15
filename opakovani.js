@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector(".input input");
   const sendBtn = document.querySelector(".send");
   const msgs = document.querySelector(".msgs");
-  const authorSelect = document.querySelector(".author"); // nový řádek
+  const authorSelect = document.querySelector(".author");
 
   // čas
   function getTime() {
@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const bubble = document.createElement("div");
     bubble.className = "bubble";
     bubble.innerHTML = `
-    <div class="meta">${getTime()} ${author}</div>
-    <div>${text}</div>
-  `;
+      <div class="meta">${getTime()} ${author}</div>
+      <div>${text}</div>
+    `;
 
     row.appendChild(bubble);
     msgs.appendChild(row);
@@ -36,22 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // odeslání zprávy
-  function sendMessage() {
+  async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
-    const author = authorSelect.value; // nový řádek
+    const author = authorSelect.value;
 
     addMessage(text, author);
-    addchat(text, author);
-    async function addchat(text, author) {
-      const message = text;
-      const name = author;
 
-      const response = await sql(
-        `INSERT INTO chat (message,name) VALUES ('${message}','${name}') `
-      );
-    }
+    await sql(
+      `INSERT INTO chat (message,name) VALUES ('${text}','${author}') `
+    );
+
     input.value = "";
   }
 
